@@ -50,7 +50,7 @@ int main()
                     cin >> mhs[jmlData].nilai.tugas;
                     cout << " Nilai UTS      (30%): ";
                     cin >> mhs[jmlData].nilai.uts;
-                    cout << " Nilai Uas      (40%): ";
+                    cout << " Nilai UAS      (40%): ";
                     cin >> mhs[jmlData].nilai.uas;
                     
                     mhs[jmlData].nilai.akhir =  (mhs[jmlData].nilai.absen * 0.1)
