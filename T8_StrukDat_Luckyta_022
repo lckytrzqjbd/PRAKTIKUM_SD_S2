@@ -1,0 +1,90 @@
+#include <iostream> //untuk input & output
+#include <vector> // untuk menyimpan kota
+#include <algorithm> // untuk menyimpan next_permutation().
+#include <climits> //untuk INT_MAX
+
+using namespace std;
+
+int main() {
+    int n = 4;
+
+    // Adjacency Matrix / Cost Matrix
+    int cost[4][4] = {
+        {0, 4, 1, 3},
+        {4, 0, 2, 1},
+        {1, 2, 0, 5},
+        {3, 1, 5, 0}
+    };
+
+    cout << "Cost List :" << endl;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << cost[i][j] << "\t";
+        }
+        cout << endl;
+    }
+
+    int start;
+    cout << "\nMasukkan titik awal (1-4): ";
+    cin >> start;
+
+    start--; // karena index array dimulai dari 0
+
+    vector<int> city;
+
+    // memasukkan kota selain titik awal
+    for (int i = 0; i < n; i++) {
+        if (i != start) {
+            city.push_back(i);
+        }
+    }
+
+    int minCost = INT_MAX;
+    vector<int> bestPath;
+
+    // brute force semua kemungkinan jalur
+    do {
+        int currentCost = 0;
+        int current = start;
+
+        // hitung biaya perjalanan
+        for (int i = 0; i < city.size(); i++) {
+            currentCost += cost[current][city[i]];
+            current = city[i];
+        }
+
+        // kembali ke titik awal
+        currentCost += cost[current][start];
+
+        // cek biaya minimum
+        if (currentCost < minCost) {
+            minCost = currentCost;
+
+            bestPath.clear();
+            bestPath.push_back(start);
+
+            for (int i = 0; i < city.size(); i++) {
+                bestPath.push_back(city[i]);
+            }
+
+            bestPath.push_back(start);
+        }
+
+    } while (next_permutation(city.begin(), city.end()));
+
+    // output jalur terbaik
+    cout << "\nJalur Terpendek :" << endl;
+
+    for (int i = 0; i < bestPath.size(); i++) {
+        cout << bestPath[i] + 1;
+
+        if (i != bestPath.size() - 1) {
+            cout << " ---> ";
+        }
+    }
+
+    cout << "\n\nMinimum Cost : " << minCost << endl;
+
+    return 0;
+}
